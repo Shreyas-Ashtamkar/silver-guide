@@ -1,6 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
+#Script files
+filemark.ps1
+filemark.sh
+filemark.zsh
+filemark.fish
+
 ### Databases ###
 *.db
 
