@@ -1,5 +1,3 @@
-# install_filemark.ps1
-
 param(
     [switch]$uninstall
 )
