@@ -44,6 +44,10 @@ else {
     # Create PowerShell script
     $scriptContent | Set-Content -Path $ps1ScriptPath -Force
 
+    # Install Tabulate Python Library
+    Write-Host "Installing Python library : tabulate"
+    & $pythonExecutablePath -m pip install -r ..\requirements.txt
+
     # Add alias in current session
     Set-Alias filemark $ps1ScriptPath -Scope Global -Force;
 

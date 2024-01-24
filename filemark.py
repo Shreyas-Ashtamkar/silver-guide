@@ -2,6 +2,7 @@
 import sqlite3
 import os
 import argparse
+from tabulate import tabulate
 
 os.getcwd()
 # %%
@@ -76,8 +77,14 @@ def display_projects():
     Projects = cursor.fetchall()
 
     # Display the Projects
-    for project_id, project_name, project_path, project_created in Projects:
-        print(f"Project ID: {project_id}, Name: {project_name}, Path: {project_path}, Creation : {project_created}.")
+    table_display = tabulate(Projects, headers=[ "ID", "Name", "Path", "Creation" ])
+    table_width = (len(table_display)//(len(Projects)+2))
+    table_heading = " FILEMARKS "
+    table_heading_spacing = (table_width - len(table_heading))//2
+    print(table_heading_spacing*"-" + table_heading.upper() + (table_heading_spacing+1)*"-")
+    print(table_display)
+    # for project_id, project_name, project_path, project_created in Projects:
+    #     print(f"Project ID: {project_id}, Name: {project_name}, Path: {project_path}, Creation : {project_created}.")
 
     connection.close()
 
