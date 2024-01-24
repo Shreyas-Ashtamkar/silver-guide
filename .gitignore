@@ -2,6 +2,10 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 #Script files
+bin/filemark_new.ps1
+bin/filemark_old.ps1
+bin/install_filemark_old.ps1
+
 filemark.ps1
 filemark.sh
 filemark.zsh

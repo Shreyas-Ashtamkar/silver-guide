@@ -14,9 +14,17 @@ $DataBasePath = (Resolve-Path "$PSScriptRoot\..\silver-guide.db").Path
 
 $ps1ScriptPath = "$PSScriptRoot\filemark.ps1"
 $scriptContent = @"
-# filemark.ps1
 `$env:DATABASE_PATH = "$DataBasePath";
-& "$pythonExecutablePath" "$pythonScriptPath" `$args;
+`$pythonExecutable = "$pythonExecutablePath";
+`$scriptAbsolutePath = "$pythonScriptPath";
+`$OUTPUT = (& `$pythonExecutable `$scriptAbsolutePath `$args | Out-String).Trim();
+if (`$OUTPUT -match 'FILEMARK OPEN .*'){
+    & myenv deactivate;
+    Set-Location `$OUTPUT.SubString(14);
+    & myenv activate;
+} else {
+    Write-Host `$OUTPUT;
+}
 `$env:DATABASE_PATH = "";
 "@
 

@@ -126,9 +126,10 @@ def main():
     parser.add_argument('-p', '--path', help='Path of the project (mandatory)')
     parser.add_argument('-g', '--get', nargs='?', const=True, help='Fetch a project by ID or name')
     parser.add_argument('-r', '--remove', nargs=1, help='Delete a project by ID or name')
+    parser.add_argument('-o', '--open', nargs=1, help='Open a project by ID or name')
 
-    args = parser.parse_args()
-
+    args, unknown_args = parser.parse_known_args()
+    
     # Create the database and projects table
     create_database()
 
@@ -161,6 +162,19 @@ def main():
             print(f"Project ID: {project_id}, Name: {project_name}, Path: {project_path} Deleted Successfully.")
         else:
             print("Project not found.")
+    elif args.open:
+        # OPEN PROJECTS ONE
+        # If --open is provided with a value, fetch the specified project and display it
+        if args.open[0].isnumeric():
+            args.open[0] = int(args.open[0])
+        
+        project = get_project(args.open[0])
+        
+        if project:
+            project_id, project_name, project_path, project_created = project
+            print(f"FILEMARK OPEN {project_path}")
+        else:
+            print("Project not found.")
     else:
         # INSERT MODE ONE
         # Determine project_name and project_path based on the number of unnamed arguments and named parameters
@@ -178,13 +192,17 @@ def main():
             project_path = args.arguments[1]
         else:
             parser.error('Incorrect arguments. Provide either unnamed arguments or --name and --path or --get.')
-
+            
+        if not os.path.exists(project_path):
+            parser.error(f"The provided path does not exist : '{project_path}'")
+            
         # Insert project based on determined values
         project_name = insert_project(project_name, project_path)
 
-        # Display all projects from the database
+        # Display the inserted project
         project_id, project_name, project_path, project_created = get_project(project_name)
         print(f"Project ID: {project_id}, Name: {project_name}, Path: {project_path}, Successfully Created.")
+        
 # %%
 
 if __name__ == '__main__':
